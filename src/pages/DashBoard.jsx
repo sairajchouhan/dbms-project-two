@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { FaPlus } from 'react-icons/fa';
 import { ImEnter } from 'react-icons/im';
 import CreateRoomModel from '../components/CreateRoomModel';
 import DashBoardUserRoomCard from '../components/DashBoardUserRoomCard';
 import JoinRoomModel from '../components/JoinRoomModel';
+import { db } from '../firebase';
 
 const DashBoard = () => {
   const [show1, setShow1] = useState(false);
@@ -13,6 +14,24 @@ const DashBoard = () => {
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    const rooms = [];
+    const unsub = db
+      .collection('rooms')
+      .get()
+      .then((qs) => {
+        qs.docs.forEach((room) => {
+          rooms.push({ roomId: room.id, ...room.data() });
+        });
+        setRooms(rooms);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+    return unsub;
+  }, []);
 
   return (
     <div style={{ marginTop: '1rem' }}>
@@ -57,7 +76,18 @@ const DashBoard = () => {
         <JoinRoomModel show={show2} handleClose={handleClose2} />
       </Row>
       <Row style={{ marginTop: '1.5rem' }}>
-        <DashBoardUserRoomCard roomName="asd" />
+        {rooms.length > 0 ? (
+          rooms.map((room) => (
+            <DashBoardUserRoomCard
+              roomName={room.roomName}
+              roomId={room.roomId}
+              roomAdmin={room.admin}
+              key={room.roomId}
+            />
+          ))
+        ) : (
+          <p color="gray.500">No Rooms :) </p>
+        )}
       </Row>
     </div>
   );
