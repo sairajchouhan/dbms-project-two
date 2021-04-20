@@ -3,7 +3,9 @@ import { Container } from 'react-bootstrap';
 import { Route, Switch } from 'react-router';
 
 import NavBar from './components/NavBar';
+import PrivateRoute from './components/PrivateRoute';
 import { auth, db } from './firebase';
+import DashBoard from './pages/DashBoard';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
@@ -35,6 +37,7 @@ const App = () => {
               <Route path="/" component={Home} exact />
               <Route path="/signup" component={SignUp} />
               <Route path="/login" component={Login} />
+              <PrivateRoute path="/dashboard" component={DashBoard} />
             </Container>
           </Switch>
         </>
