@@ -82,6 +82,7 @@ const RoomRight = ({ roomName, roomId, roomAmdin }) => {
                 text={msg.msg}
                 isAuthUser={currentUser.displayName === msg.sender}
                 key={Math.floor(Math.random() * 99999999)}
+                chatername={msg.sender}
               />
             );
           })}

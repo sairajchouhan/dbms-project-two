@@ -7,6 +7,7 @@ import { db, timestamp } from '../firebase';
 const RoomChatInput = ({ roomId, sender }) => {
   const [msg, setMsg] = useState('');
   const sendMessage = async () => {
+    if (msg.trim() === '') return;
     try {
       await db
         .collection('roomMessages')
