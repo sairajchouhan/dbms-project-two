@@ -22,7 +22,7 @@ const CreateRoomModel = ({ show, handleClose }) => {
         .get();
 
       if (!roomMatesQS.empty) {
-        // history.push(`/room/${roomId}`);
+        history.push(`/room/${roomId}`);
         return handleClose();
       }
     } catch (err) {

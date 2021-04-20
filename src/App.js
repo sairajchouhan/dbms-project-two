@@ -8,6 +8,7 @@ import { auth, db } from './firebase';
 import DashBoard from './pages/DashBoard';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Room from './pages/Room';
 import SignUp from './pages/SignUp';
 import { useAuth } from './state/authState';
 
@@ -38,6 +39,7 @@ const App = () => {
               <Route path="/signup" component={SignUp} />
               <Route path="/login" component={Login} />
               <PrivateRoute path="/dashboard" component={DashBoard} />
+              <PrivateRoute path="/room/:id" component={Room} />
             </Container>
           </Switch>
         </>

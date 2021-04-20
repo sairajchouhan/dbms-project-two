@@ -1,0 +1,69 @@
+import React, { useEffect, useState } from 'react';
+import { db } from '../firebase';
+
+const RoomLeft = ({ roomId }) => {
+  const [roomMates, setRoomMates] = useState([]);
+  useEffect(() => {
+    const unsub = db
+      .collection('rooms')
+      .doc(roomId)
+      .collection('roomMates')
+      .onSnapshot((qs) => {
+        let mates = [];
+        mates = qs.docs.map((doc) => ({
+          uid: doc.id,
+          username: doc.data().username,
+        }));
+        setRoomMates(mates);
+      });
+
+    return () => {
+      unsub();
+    };
+  }, [roomId]);
+
+  return (
+    <div
+      style={{
+        height: '100%',
+        borderRight: '1px solid lightgray',
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          height: '8%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <h5 className="m-0">Room Mates</h5>
+      </div>
+      <div
+        style={{
+          overflowY: 'scroll',
+          height: '92%',
+        }}
+      >
+        {roomMates.length > 0 &&
+          roomMates.map((mate) => {
+            return (
+              <div key={mate.uid}>
+                <div
+                  key={mate.uid}
+                  style={{ display: 'flex', flexDirection: 'column' }}
+                  className="py-2"
+                >
+                  <p>{mate.username}</p>
+                </div>
+                <hr className="m-0" />
+              </div>
+            );
+          })}
+      </div>
+    </div>
+  );
+};
+
+export default RoomLeft;

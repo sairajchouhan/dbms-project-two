@@ -25,7 +25,7 @@ const CreateRoomModel = ({ show, handleClose }) => {
         .doc(currentUser.uid)
         .set({ username: currentUser.displayName });
 
-      // history.push(`/room/${room.id}`);
+      history.push(`/room/${room.id}`);
     } catch (err) {
       console.log('error in creating a room or joining a room');
     }
