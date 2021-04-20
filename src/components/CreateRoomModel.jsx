@@ -1,13 +1,39 @@
 import React, { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useHistory } from 'react-router';
+import { db } from '../firebase';
 import { useAuth } from '../state/authState';
 
 const CreateRoomModel = ({ show, handleClose }) => {
-  //   const history = useHistory();
+  const history = useHistory();
   const [data, setData] = useState({ roomName: '' });
-  //   const [loading, setLoading] = useState(false);
-  //   const currentUser = useAuth((state) => state.currentUser);
+  const [loading, setLoading] = useState(false);
+  const currentUser = useAuth((state) => state.currentUser);
+
+  const handleCreateRoom = async () => {
+    setLoading((loading) => !loading);
+    const roomData = {
+      roomName: data.roomName,
+      admin: currentUser.displayName,
+    };
+    try {
+      const room = await db.collection('rooms').add(roomData);
+      await db
+        .collection('rooms')
+        .doc(room.id)
+        .collection('roomMates')
+        .doc(currentUser.uid)
+        .set({ username: currentUser.displayName });
+
+      // history.push(`/room/${room.id}`);
+    } catch (err) {
+      console.log('error in creating a room or joining a room');
+    }
+
+    setLoading((loading) => !loading);
+
+    handleClose();
+  };
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -28,8 +54,8 @@ const CreateRoomModel = ({ show, handleClose }) => {
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleClose}>
-          Create
+        <Button variant="primary" onClick={handleCreateRoom}>
+          {loading ? <span>Creating...</span> : <span>Create</span>}
         </Button>
       </Modal.Footer>
     </Modal>
