@@ -75,7 +75,14 @@ const DashBoard = () => {
         <CreateRoomModel show={show1} handleClose={handleClose1} />
         <JoinRoomModel show={show2} handleClose={handleClose2} />
       </Row>
-      <Row style={{ marginTop: '1.5rem' }}>
+
+      <Row className="mt-4 pb-2">
+        <Col>
+          <h4 className="m-0">All Rooms</h4>
+        </Col>
+      </Row>
+
+      <Row>
         {rooms.length > 0 ? (
           rooms.map((room) => (
             <DashBoardUserRoomCard

@@ -42,9 +42,16 @@ const DashBoardUserRoomCard = ({ roomName, roomId, roomAdmin, ...props }) => {
 
   return (
     <div className="dashBoardUserRoomCard" onClick={handleJoinRoom}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <p>{roomName}</p>
-        {currentUser.displayName === roomAdmin && <p>You are admin</p>}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <p className="mr-3">{roomName}</p>
+        {currentUser.displayName === roomAdmin && (
+          <p style={{ fontSize: '0.75rem', color: 'gray' }}>You are admin</p>
+        )}
       </div>
     </div>
   );

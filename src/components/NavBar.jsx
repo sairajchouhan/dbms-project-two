@@ -15,7 +15,7 @@ const NavBar = () => {
   return (
     <Navbar bg="light" expand="md" className="px-5">
       <Navbar.Brand as={Link} to="/">
-        React-Bootstrap
+        DBMS phase two project
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
