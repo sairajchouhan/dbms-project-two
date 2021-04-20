@@ -1,22 +1,42 @@
 import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useAuth } from '../state/authState';
 
 const NavBar = () => {
+  const h = useHistory();
+  const currentUser = useAuth((state) => state.currentUser);
+  const logout = useAuth((state) => state.logout);
+  const handleLogout = () => {
+    logout();
+    h.push('/');
+  };
+  console.log(currentUser);
   return (
-    <Navbar bg="light" expand="lg" className="px-5">
+    <Navbar bg="light" expand="md" className="px-5">
       <Navbar.Brand as={Link} to="/">
         React-Bootstrap
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
-          <Nav.Link as={Link} to="/login">
-            Login
-          </Nav.Link>
-          <Nav.Link as={Link} to="/signup">
-            Signup
-          </Nav.Link>
+          {currentUser ? (
+            <>
+              <Nav.Link as={Link} to="/dashboard">
+                Dashboard
+              </Nav.Link>
+              <Nav.Link onClick={handleLogout}>logout</Nav.Link>
+            </>
+          ) : (
+            <>
+              <Nav.Link as={Link} to="/login">
+                Login
+              </Nav.Link>
+              <Nav.Link as={Link} to="/signup">
+                Signup
+              </Nav.Link>
+            </>
+          )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>

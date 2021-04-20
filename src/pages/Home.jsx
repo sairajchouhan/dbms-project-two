@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router';
+import { useAuth } from '../state/authState';
 
 const Home = () => {
+  const currentUser = useAuth((state) => state.currentUser);
+  const history = useHistory();
+  useEffect(() => {
+    if (currentUser) history.push('/dashboard');
+  }, [currentUser, history]);
   return <div>this is home</div>;
 };
 
