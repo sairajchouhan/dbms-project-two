@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 
@@ -12,7 +12,11 @@ const SignUp = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const signup = useAuth((state) => state.signup);
-  // const currentUser = useAuth((state) => state.currentUser);
+  const currentUser = useAuth((state) => state.currentUser);
+
+  useEffect(() => {
+    if (currentUser) history.push('/dashboard');
+  }, [currentUser, history]);
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
