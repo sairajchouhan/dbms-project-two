@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { db } from '../firebase';
 import { useAuth } from '../state/authState';
+import Message from './Message';
 import RoomChatInput from './RoomChatInput';
 
 const RoomRight = ({ roomName, roomId, roomAmdin }) => {
   const currentUser = useAuth((state) => state.currentUser);
+  const [msgs, setMesgs] = useState([]);
+
+  useEffect(() => {
+    const unsub = db
+      .collection('roomMessages')
+      .doc(roomId)
+      .collection('messages')
+      .orderBy('sentAt', 'desc')
+      .onSnapshot((qs) => {
+        setMesgs(qs.docs.map((doc) => doc.data()));
+      });
+
+    return () => {
+      unsub();
+    };
+  }, [roomId]);
+
   return (
     <div
       style={{
@@ -34,7 +53,15 @@ const RoomRight = ({ roomName, roomId, roomAmdin }) => {
             padding: '0 1.5rem',
           }}
         >
-          messeges go here
+          {msgs.map((msg) => {
+            return (
+              <Message
+                text={msg.msg}
+                isAuthUser={currentUser.displayName === msg.sender}
+                key={Math.floor(Math.random() * 99999999)}
+              />
+            );
+          })}
         </div>
         <RoomChatInput roomId={roomId} sender={currentUser.displayName} />
       </div>
