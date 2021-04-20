@@ -4,18 +4,19 @@ import { useHistory } from 'react-router-dom';
 
 import { validateInputs } from '../utils/validators';
 import { db } from '../firebase';
+import { useAuth } from '../state/authState';
 
 const SignUp = () => {
   const history = useHistory();
   const [data, setData] = useState({ username: '', email: '', password: '' });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const signup = useAuth((state) => state.signup);
+  // const currentUser = useAuth((state) => state.currentUser);
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-
-  const signup = () => {};
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -47,9 +48,11 @@ const SignUp = () => {
         .doc(user.uid)
         .set({ email: data.email, username: data.username })
         .then(() => console.log('recorded in firestore'))
-        .catch(() =>
-          console.log('error in recording signup info to firestore')
-        );
+        .catch((err) => {
+          console.log(err.message);
+          console.log(err.code);
+          console.log('error in recording signup info to firestore');
+        });
       history.push('/dashboard');
     } catch (err) {
       console.log(err.code);
