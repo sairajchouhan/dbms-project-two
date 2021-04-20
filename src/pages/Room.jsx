@@ -19,10 +19,10 @@ const Room = () => {
   }, [id]);
   return (
     <Row style={{ height: '90vh' }}>
-      <Col md={4} style={{ height: '90%' }} className="px-0">
+      <Col md={4} style={{ height: '100%' }} className="px-0">
         <RoomLeft roomId={id} />
       </Col>
-      <Col md={8} className="px-0">
+      <Col md={8} className="px-0" style={{ height: '100%' }}>
         <RoomRight
           roomName={room.roomName}
           roomId={id}
