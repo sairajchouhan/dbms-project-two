@@ -36,6 +36,7 @@ const RoomLeft = ({ roomId }) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          borderBottom: '1px solid lightgray',
         }}
       >
         <h5 className="m-0">Room Mates</h5>
@@ -53,7 +54,7 @@ const RoomLeft = ({ roomId }) => {
                 <div
                   key={mate.uid}
                   style={{ display: 'flex', flexDirection: 'column' }}
-                  className="py-2"
+                  className="py-2 px-3"
                 >
                   <p>{mate.username}</p>
                 </div>

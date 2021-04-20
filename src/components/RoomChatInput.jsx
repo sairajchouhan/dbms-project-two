@@ -47,7 +47,7 @@ const RoomChatInput = ({ roomId, sender }) => {
           />
           <InputGroup.Append>
             <Button
-              variant="outline-secondary"
+              variant="outline-primary"
               onClick={sendMessage}
               style={{ padding: '0 10px' }}
             >

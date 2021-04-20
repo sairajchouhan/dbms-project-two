@@ -18,11 +18,19 @@ const Room = () => {
       });
   }, [id]);
   return (
-    <Row style={{ height: '90vh' }}>
-      <Col md={4} style={{ height: '100%' }} className="px-0">
+    <Row
+      style={{
+        height: '85vh',
+        border: '1px solid lightgray',
+        borderRadius: '2px',
+        marginTop: '1rem',
+        boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
+      }}
+    >
+      <Col md={3} style={{ height: '100%' }} className="px-0">
         <RoomLeft roomId={id} />
       </Col>
-      <Col md={8} className="px-0" style={{ height: '100%' }}>
+      <Col md={9} className="px-0" style={{ height: '100%' }}>
         <RoomRight
           roomName={room.roomName}
           roomId={id}
