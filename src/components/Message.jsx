@@ -7,7 +7,7 @@ const Message = ({ isAuthUser, text }) => {
         <div
           style={{
             background: 'lightblue',
-            padding: '0.75rem 0.5rem',
+            padding: '0.5rem 0.5rem',
             marginLeft: 'auto',
             borderRadius: '10px',
             borderTopRightRadius: '0',
@@ -20,11 +20,12 @@ const Message = ({ isAuthUser, text }) => {
         <div
           style={{
             background: 'lightgray',
-            padding: '0.75rem 0.5rem',
+            padding: '0.5rem 0.5rem',
             marginRight: 'auto',
             borderRadius: '10px',
             borderTopLeftRadius: '0',
           }}
+          className="my-1"
         >
           <p>{text}</p>
         </div>
