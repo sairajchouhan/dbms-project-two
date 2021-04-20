@@ -3,6 +3,7 @@ import { Button, Card, Col, Form, Modal, Row } from 'react-bootstrap';
 import { FaPlus } from 'react-icons/fa';
 import { ImEnter } from 'react-icons/im';
 import CreateRoomModel from '../components/CreateRoomModel';
+import DashBoardUserRoomCard from '../components/DashBoardUserRoomCard';
 import JoinRoomModel from '../components/JoinRoomModel';
 
 const DashBoard = () => {
@@ -54,6 +55,9 @@ const DashBoard = () => {
         </Col>
         <CreateRoomModel show={show1} handleClose={handleClose1} />
         <JoinRoomModel show={show2} handleClose={handleClose2} />
+      </Row>
+      <Row style={{ marginTop: '1.5rem' }}>
+        <DashBoardUserRoomCard roomName="asd" />
       </Row>
     </div>
   );
