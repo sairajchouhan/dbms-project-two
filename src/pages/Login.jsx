@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Spinner, Button } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../state/authState';
 
 const Login = () => {
@@ -84,6 +84,9 @@ const Login = () => {
         <Button variant="primary" type="submit">
           {loading ? <Spinner animation="grow" /> : <span>Submit</span>}
         </Button>
+        <p className="text-muted text-sm mt-2">
+          Don't have an account click <Link to="/signup">here</Link> to signup
+        </p>
       </Form>
     </>
   );
