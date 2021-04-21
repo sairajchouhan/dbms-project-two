@@ -6,12 +6,11 @@ const Message = ({ isAuthUser, text, chatername }) => {
       {isAuthUser ? (
         <div
           style={{
-            background: '#706fd3',
+            background: '#81ecec',
             padding: '0.5rem 0.75rem',
             marginLeft: 'auto',
             borderRadius: '10px',
             borderTopRightRadius: '0',
-            color: 'white',
           }}
           className="my-1"
         >
@@ -20,6 +19,7 @@ const Message = ({ isAuthUser, text, chatername }) => {
               fontSize: '0.75rem',
               fontStyle: 'italic',
               textAlign: 'end',
+              fontWeight: '600',
             }}
           >
             {chatername}
@@ -41,6 +41,7 @@ const Message = ({ isAuthUser, text, chatername }) => {
             style={{
               fontSize: '0.75rem',
               fontStyle: 'italic',
+              fontWeight: '600',
               textAlign: 'start',
             }}
           >

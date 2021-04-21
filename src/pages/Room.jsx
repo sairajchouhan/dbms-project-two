@@ -22,7 +22,7 @@ const Room = () => {
       style={{
         height: '85vh',
         border: '1px solid lightgray',
-        borderRadius: '2px',
+        borderRadius: '7px',
         marginTop: '1rem',
         boxShadow: '0px 3px 15px rgba(0,0,0,0.2)',
       }}
