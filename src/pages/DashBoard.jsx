@@ -6,6 +6,7 @@ import CreateRoomModel from '../components/CreateRoomModel';
 import DashBoardUserRoomCard from '../components/DashBoardUserRoomCard';
 import JoinRoomModel from '../components/JoinRoomModel';
 import { db } from '../firebase';
+import '../index.css';
 
 const DashBoard = () => {
   const [show1, setShow1] = useState(false);
@@ -37,15 +38,7 @@ const DashBoard = () => {
     <div style={{ marginTop: '1rem' }}>
       <Row>
         <Col md={6}>
-          <Card
-            style={{
-              textAlign: 'center',
-              cursor: 'pointer',
-              background: '#d2dae2',
-              border: 'none',
-            }}
-            onClick={handleShow1}
-          >
+          <Card className="dashBoardModelCard" onClick={handleShow1}>
             <Card.Body>
               <Card.Title>
                 <FaPlus style={{ fontSize: '2em' }} />
@@ -55,15 +48,7 @@ const DashBoard = () => {
           </Card>
         </Col>
         <Col md={6}>
-          <Card
-            style={{
-              textAlign: 'center',
-              cursor: 'pointer',
-              background: '#d2dae2',
-              border: 'none',
-            }}
-            onClick={handleShow2}
-          >
+          <Card className="dashBoardModelCard" onClick={handleShow2}>
             <Card.Body>
               <Card.Title>
                 <ImEnter style={{ fontSize: '2em' }} />

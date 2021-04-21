@@ -29,3 +29,14 @@ h5 {
 .dashBoardUserRoomCard:hover {
   background-color: rgb(230, 230, 230);
 }
+
+.dashBoardModelCard {
+  text-align: center;
+  cursor: pointer;
+  background: #ecf0f1;
+  border: none;
+  transition: all 0.275s ease;
+}
+.dashBoardModelCard:hover {
+  background: #dee3e9;
+}
