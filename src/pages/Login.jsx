@@ -48,38 +48,44 @@ const Login = () => {
   };
 
   return (
-    <Form onSubmit={handleLogin}>
-      <Form.Group controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control
-          type="email"
-          name="email"
-          placeholder="Enter email"
-          value={data.email}
-          onChange={handleChange}
-        />
-        {errors.email && (
-          <Form.Text className="text-danger">{errors.email}</Form.Text>
-        )}
-      </Form.Group>
+    <>
+      <h1 className="text-center">LogIn</h1>
+      <Form
+        onSubmit={handleLogin}
+        style={{ maxWidth: '40%', margin: '2rem auto' }}
+      >
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            placeholder="Enter email"
+            value={data.email}
+            onChange={handleChange}
+          />
+          {errors.email && (
+            <Form.Text className="text-danger">{errors.email}</Form.Text>
+          )}
+        </Form.Group>
 
-      <Form.Group controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={data.password}
-          onChange={handleChange}
-        />
-        {errors.password && (
-          <Form.Text className="text-danger">{errors.password}</Form.Text>
-        )}
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        {loading ? <Spinner animation="grow" /> : <span>Submit</span>}
-      </Button>
-    </Form>
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={data.password}
+            onChange={handleChange}
+          />
+          {errors.password && (
+            <Form.Text className="text-danger">{errors.password}</Form.Text>
+          )}
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          {loading ? <Spinner animation="grow" /> : <span>Submit</span>}
+        </Button>
+      </Form>
+    </>
   );
 };
 

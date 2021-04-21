@@ -68,51 +68,57 @@ const SignUp = () => {
   };
 
   return (
-    <Form onSubmit={handleSignup}>
-      <Form.Group controlId="formBasicUsername">
-        <Form.Label>Username</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter Username"
-          value={data.username}
-          onChange={handleChange}
-          name="username"
-        />
-        {errors.username && (
-          <Form.Text className="text-danger">{errors.username}</Form.Text>
-        )}
-      </Form.Group>
-      <Form.Group controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control
-          type="email"
-          name="email"
-          placeholder="Enter email"
-          value={data.email}
-          onChange={handleChange}
-        />
-        {errors.email && (
-          <Form.Text className="text-danger">{errors.email}</Form.Text>
-        )}
-      </Form.Group>
+    <>
+      <h1 className="text-center">SignUp</h1>
+      <Form
+        onSubmit={handleSignup}
+        style={{ maxWidth: '40%', margin: '2rem auto' }}
+      >
+        <Form.Group controlId="formBasicUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter Username"
+            value={data.username}
+            onChange={handleChange}
+            name="username"
+          />
+          {errors.username && (
+            <Form.Text className="text-danger">{errors.username}</Form.Text>
+          )}
+        </Form.Group>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            placeholder="Enter email"
+            value={data.email}
+            onChange={handleChange}
+          />
+          {errors.email && (
+            <Form.Text className="text-danger">{errors.email}</Form.Text>
+          )}
+        </Form.Group>
 
-      <Form.Group controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={data.password}
-          onChange={handleChange}
-        />
-        {errors.password && (
-          <Form.Text className="text-danger">{errors.password}</Form.Text>
-        )}
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        {loading ? <Spinner animation="grow" /> : <span>Submit</span>}
-      </Button>
-    </Form>
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={data.password}
+            onChange={handleChange}
+          />
+          {errors.password && (
+            <Form.Text className="text-danger">{errors.password}</Form.Text>
+          )}
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          {loading ? <Spinner animation="grow" /> : <span>Submit</span>}
+        </Button>
+      </Form>
+    </>
   );
 };
 
