@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase';
+import { useAuth } from '../state/authState';
 
-const RoomLeft = ({ roomId }) => {
+const RoomLeft = ({ roomId, roomAdmin }) => {
   const [roomMates, setRoomMates] = useState([]);
+  const currentUser = useAuth((state) => state.currentUser);
   useEffect(() => {
     const unsub = db
       .collection('rooms')
@@ -57,7 +59,12 @@ const RoomLeft = ({ roomId }) => {
                   style={{ display: 'flex', flexDirection: 'column' }}
                   className="py-2 px-3"
                 >
-                  <p className="text-center">{mate.username}</p>
+                  <p className="text-center">
+                    {mate.username}
+                    {currentUser.displayName === mate.username
+                      ? ' - Admin'
+                      : ''}
+                  </p>
                 </div>
                 <hr className="m-0" />
               </div>

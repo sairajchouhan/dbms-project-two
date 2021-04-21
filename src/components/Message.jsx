@@ -6,7 +6,7 @@ const Message = ({ isAuthUser, text, chatername }) => {
       {isAuthUser ? (
         <div
           style={{
-            background: '#81ecec',
+            background: 'lightblue',
             padding: '0.5rem 0.75rem',
             marginLeft: 'auto',
             borderRadius: '10px',

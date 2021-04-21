@@ -28,7 +28,7 @@ const Room = () => {
       }}
     >
       <Col md={3} style={{ height: '100%' }} className="px-0">
-        <RoomLeft roomId={id} />
+        <RoomLeft roomId={id} roomAdmin={room.admin} />
       </Col>
       <Col md={9} className="px-0" style={{ height: '100%' }}>
         <RoomRight

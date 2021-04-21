@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { BiExit } from 'react-icons/bi';
 import { useHistory } from 'react-router-dom';
+import { FaRegCopy } from 'react-icons/fa';
 
 import { db } from '../firebase';
 import { useAuth } from '../state/authState';
 import Message from './Message';
 import RoomChatInput from './RoomChatInput';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 const RoomRight = ({ roomName, roomId, roomAmdin }) => {
   const history = useHistory();
   const currentUser = useAuth((state) => state.currentUser);
   const [msgs, setMesgs] = useState([]);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const unsub = db
@@ -42,6 +45,14 @@ const RoomRight = ({ roomName, roomId, roomAmdin }) => {
     }
   };
 
+  const copyRoomId = () => {
+    navigator.clipboard.writeText(roomId);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 3000);
+  };
+
   return (
     <div
       style={{
@@ -62,11 +73,36 @@ const RoomRight = ({ roomName, roomId, roomAmdin }) => {
         }}
       >
         <h5>{roomName}</h5>
-        <div style={{ cursor: 'pointer' }} onClick={handleLeaveRoom}>
-          <BiExit style={{ fontSize: '1.5rem' }} />
+        <div style={{ display: 'flex' }}>
+          <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip id="tooltip-copy-roomid">
+                {!copied ? <span>Copy Room Id</span> : <span>Copied!</span>}
+              </Tooltip>
+            }
+          >
+            <div
+              style={{ cursor: 'pointer', margin: '0 8px' }}
+              onClick={copyRoomId}
+            >
+              <FaRegCopy style={{ fontSize: '1.5rem', color: '#30336b' }} />
+            </div>
+          </OverlayTrigger>
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip id="tooltip-leave-room">Leave room</Tooltip>}
+          >
+            <div
+              style={{ cursor: 'pointer', margin: '0 8px' }}
+              onClick={handleLeaveRoom}
+            >
+              <BiExit style={{ fontSize: '1.5rem', color: '#eb4d4b' }} />
+            </div>
+          </OverlayTrigger>
         </div>
       </div>
-      <div style={{ height: '92%' }}>
+      <div style={{ height: '92%', padding: '10px 0' }}>
         <div
           style={{
             height: '90%',
@@ -74,6 +110,7 @@ const RoomRight = ({ roomName, roomId, roomAmdin }) => {
             display: 'flex',
             flexDirection: 'column-reverse',
             padding: '0 1.5rem',
+            paddingRight: '1rem',
           }}
         >
           {msgs.map((msg) => {
