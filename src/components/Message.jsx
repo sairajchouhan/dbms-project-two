@@ -6,11 +6,12 @@ const Message = ({ isAuthUser, text, chatername }) => {
       {isAuthUser ? (
         <div
           style={{
-            background: 'lightblue',
+            background: '#706fd3',
             padding: '0.5rem 0.75rem',
             marginLeft: 'auto',
             borderRadius: '10px',
             borderTopRightRadius: '0',
+            color: 'white',
           }}
           className="my-1"
         >
