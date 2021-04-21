@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 import { db } from '../firebase';
 import '../index.css';
@@ -41,7 +42,7 @@ const DashBoardUserRoomCard = ({ roomName, roomId, roomAdmin, ...props }) => {
   };
 
   return (
-    <div className="dashBoardUserRoomCard" onClick={handleJoinRoom}>
+    <div className="dashBoardUserRoomCard">
       <div
         style={{
           display: 'flex',
@@ -53,6 +54,9 @@ const DashBoardUserRoomCard = ({ roomName, roomId, roomAdmin, ...props }) => {
           <p style={{ fontSize: '0.75rem', color: 'gray' }}>You are admin</p>
         )}
       </div>
+      <Button size="sm" variant="success" onClick={handleJoinRoom}>
+        Join
+      </Button>
     </div>
   );
 };
