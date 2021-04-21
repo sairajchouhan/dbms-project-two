@@ -45,6 +45,7 @@ const RoomLeft = ({ roomId }) => {
         style={{
           overflowY: 'scroll',
           height: '92%',
+          paddingLeft: '20px',
         }}
       >
         {roomMates.length > 0 &&
@@ -56,7 +57,7 @@ const RoomLeft = ({ roomId }) => {
                   style={{ display: 'flex', flexDirection: 'column' }}
                   className="py-2 px-3"
                 >
-                  <p>{mate.username}</p>
+                  <p className="text-center">{mate.username}</p>
                 </div>
                 <hr className="m-0" />
               </div>
