@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useHistory } from 'react-router';
+import firebase from 'firebase';
+
 import { db } from '../firebase';
 import { useAuth } from '../state/authState';
 
@@ -9,6 +11,7 @@ const CreateRoomModel = ({ show, handleClose }) => {
   const [data, setData] = useState({ roomName: '' });
   const [loading, setLoading] = useState(false);
   const currentUser = useAuth((state) => state.currentUser);
+  const authUserRef = useAuth((state) => state.authUserRef);
 
   const handleCreateRoom = async () => {
     setLoading((loading) => !loading);
@@ -18,6 +21,7 @@ const CreateRoomModel = ({ show, handleClose }) => {
     };
     try {
       const room = await db.collection('rooms').add(roomData);
+      await db.collection('rooms').doc(room.id).update({ roomId: room.id });
       await db
         .collection('rooms')
         .doc(room.id)
@@ -25,8 +29,18 @@ const CreateRoomModel = ({ show, handleClose }) => {
         .doc(currentUser.uid)
         .set({ username: currentUser.displayName });
 
+      if (!currentUser.createdRooms) currentUser.createdRooms = [];
+      else currentUser.createdRooms.push(room.id);
+
+      await authUserRef.update({
+        createdRooms: firebase.firestore.FieldValue.arrayUnion(room.id),
+        activeRooms: firebase.firestore.FieldValue.arrayUnion(room.id),
+      });
+
       history.push(`/room/${room.id}`);
     } catch (err) {
+      console.log(err.code);
+      console.log(err.message);
       console.log('error in creating a room or joining a room');
     }
 

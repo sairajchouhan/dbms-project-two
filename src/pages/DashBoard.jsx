@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { FaPlus } from 'react-icons/fa';
 import { ImEnter } from 'react-icons/im';
 import CreateRoomModel from '../components/CreateRoomModel';
-import DashBoardUserRoomCard from '../components/DashBoardUserRoomCard';
+import DashBoardBottom from '../components/DashBoardBottom';
 import JoinRoomModel from '../components/JoinRoomModel';
-import { db } from '../firebase';
 import '../index.css';
+import { useAuth } from '../state/authState';
 
 const DashBoard = () => {
   const [show1, setShow1] = useState(false);
@@ -15,24 +15,7 @@ const DashBoard = () => {
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
-  const [rooms, setRooms] = useState([]);
-
-  useEffect(() => {
-    const rooms = [];
-    const unsub = db
-      .collection('rooms')
-      .get()
-      .then((qs) => {
-        qs.docs.forEach((room) => {
-          rooms.push({ roomId: room.id, ...room.data() });
-        });
-        setRooms(rooms);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-    return unsub;
-  }, []);
+  const authUserRefValues = useAuth((state) => state.authUserRefValues);
 
   return (
     <div style={{ marginTop: '1rem' }}>
@@ -63,24 +46,10 @@ const DashBoard = () => {
 
       <Row className="mt-4 pb-2">
         <Col>
-          <h4 className="m-0">All Rooms</h4>
+          <h4 className="m-0">Your Rooms</h4>
         </Col>
       </Row>
-
-      <Row>
-        {rooms.length > 0 ? (
-          rooms.map((room) => (
-            <DashBoardUserRoomCard
-              roomName={room.roomName}
-              roomId={room.roomId}
-              roomAdmin={room.admin}
-              key={room.roomId}
-            />
-          ))
-        ) : (
-          <p color="gray.500">No Rooms :) </p>
-        )}
-      </Row>
+      <DashBoardBottom authUserRefValues={authUserRefValues} />
     </div>
   );
 };

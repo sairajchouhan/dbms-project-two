@@ -11,7 +11,6 @@ const NavBar = () => {
     logout();
     h.push('/');
   };
-  console.log(currentUser);
   return (
     <Navbar bg="light" expand="md" className="px-5">
       <Navbar.Brand as={Link} to="/">

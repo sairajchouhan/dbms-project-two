@@ -15,19 +15,28 @@ import { useAuth } from './state/authState';
 const App = () => {
   const setCurrentUser = useAuth((state) => state.setCurrentUser);
   const setAuthUserRef = useAuth((state) => state.setAuthUserRef);
+  const setAuthUserRefValues = useAuth((state) => state.setAuthUserRefValues);
   const setLoading = useAuth((state) => state.setLoading);
   const loading = useAuth((state) => state.loading);
 
   useEffect(() => {
     const unsub = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
-      console.log(user);
       const ref = db.collection('users').doc(user?.uid);
-      setAuthUserRef(ref);
-      setLoading(false);
+      db.collection('users')
+        .doc(user?.uid)
+        .get()
+        .then((doc) => {
+          setAuthUserRefValues(doc.data());
+          setAuthUserRef(ref);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log('error in App.js');
+        });
     });
     return unsub;
-  }, [setCurrentUser, setAuthUserRef, setLoading]);
+  }, [setCurrentUser, setAuthUserRef, setLoading, setAuthUserRefValues]);
 
   return (
     <>
