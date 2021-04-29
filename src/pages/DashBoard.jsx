@@ -42,12 +42,6 @@ const DashBoard = () => {
         <CreateRoomModel show={show1} handleClose={handleClose1} />
         <JoinRoomModel show={show2} handleClose={handleClose2} />
       </Row>
-
-      <Row className="mt-4 pb-2">
-        <Col>
-          <h4 className="m-0">Your Rooms</h4>
-        </Col>
-      </Row>
       <DashBoardBottom />
     </div>
   );

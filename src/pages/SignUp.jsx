@@ -50,7 +50,7 @@ const SignUp = () => {
 
       db.collection('users')
         .doc(user.uid)
-        .set({ email: data.email, username: data.username })
+        .set({ email: data.email, username: data.username, activeRooms: [] })
         .then(() => console.log('recorded in firestore'))
         .catch((err) => {
           console.log(err.message);

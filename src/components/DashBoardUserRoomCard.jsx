@@ -13,12 +13,17 @@ const DashBoardUserRoomCard = ({ roomName, roomId, roomAdmin, ...props }) => {
   };
 
   return (
-    <div {...props} className="dashBoardUserRoomCard" onClick={handleEnterRoom}>
+    <div
+      {...props}
+      className="dashBoardUserRoomCard"
+      onClick={handleEnterRoom}
+      style={{ cursor: 'pointer' }}
+    >
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
-          cursor: 'pointer',
+          justifyContent: 'space-around',
         }}
       >
         <p className="mr-3">{roomName}</p>
