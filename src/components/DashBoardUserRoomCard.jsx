@@ -1,52 +1,24 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import { useHistory } from 'react-router';
-import { db } from '../firebase';
+import { useHistory } from 'react-router-dom';
+
 import '../index.css';
 import { useAuth } from '../state/authState';
 
 const DashBoardUserRoomCard = ({ roomName, roomId, roomAdmin, ...props }) => {
-  const history = useHistory();
   const currentUser = useAuth((state) => state.currentUser);
-  const handleJoinRoom = async () => {
-    //? THIS TRY CHEKS IF YOU ARE ALREADY IN ROOM
-    //? IF YOU ARE ALREADY IN ROOM THEN JUST JOIN
-    try {
-      const roomMatesQS = await db
-        .collection('rooms')
-        .doc(roomId)
-        .collection('roomMates')
-        .where('username', '==', currentUser.displayName)
-        .get();
+  const history = useHistory();
 
-      if (!roomMatesQS.empty) {
-        history.push(`/room/${roomId}`);
-        return;
-      }
-    } catch (err) {
-      console.log(err.message);
-    }
-    // ? ADDS YOU TO ROOMMATES COLLECTIONS OF THE ROOM
-    try {
-      await db
-        .collection('rooms')
-        .doc(roomId)
-        .collection('roomMates')
-        .doc(currentUser.uid)
-        .set({ username: currentUser.displayName });
-
-      history.push(`/room/${roomId}`);
-    } catch (err) {
-      console.log('error in joining room');
-    }
+  const handleEnterRoom = () => {
+    history.push(`/room/${roomId}`);
   };
 
   return (
-    <div className="dashBoardUserRoomCard">
+    <div {...props} className="dashBoardUserRoomCard" onClick={handleEnterRoom}>
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
+          cursor: 'pointer',
         }}
       >
         <p className="mr-3">{roomName}</p>
@@ -54,9 +26,6 @@ const DashBoardUserRoomCard = ({ roomName, roomId, roomAdmin, ...props }) => {
           <p style={{ fontSize: '0.75rem', color: 'gray' }}>You are admin</p>
         )}
       </div>
-      <Button size="sm" variant="success" onClick={handleJoinRoom}>
-        Join
-      </Button>
     </div>
   );
 };

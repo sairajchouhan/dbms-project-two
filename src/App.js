@@ -21,6 +21,7 @@ const App = () => {
   useEffect(() => {
     const unsub = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
+      console.log(user);
       const ref = db.collection('users').doc(user?.uid);
       setAuthUserRef(ref);
       setLoading(false);
