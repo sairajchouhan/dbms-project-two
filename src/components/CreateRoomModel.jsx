@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useHistory } from 'react-router';
-// import firebase from 'firebase';
+import firebase from 'firebase';
 
 import { db, timestamp } from '../firebase';
 import { useAuth } from '../state/authState';
@@ -11,7 +11,7 @@ const CreateRoomModel = ({ show, handleClose }) => {
   const [data, setData] = useState({ roomName: '' });
   const [loading, setLoading] = useState(false);
   const currentUser = useAuth((state) => state.currentUser);
-  // const authUserRef = useAuth((state) => state.authUserRef);
+  const authUserRef = useAuth((state) => state.authUserRef);
 
   const handleCreateRoom = async () => {
     setLoading((loading) => !loading);
@@ -30,10 +30,9 @@ const CreateRoomModel = ({ show, handleClose }) => {
         .doc(currentUser.uid)
         .set({ username: currentUser.displayName });
 
-      // await authUserRef.update({
-      //   createdRooms: firebase.firestore.FieldValue.arrayUnion(room.id),
-      //   activeRooms: firebase.firestore.FieldValue.arrayUnion(room.id),
-      // });
+      await authUserRef.update({
+        activeRooms: firebase.firestore.FieldValue.arrayUnion(room.id),
+      });
 
       history.push(`/room/${room.id}`);
     } catch (err) {
