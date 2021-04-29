@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useHistory } from 'react-router';
-import firebase from 'firebase';
+// import firebase from 'firebase';
 
-import { db } from '../firebase';
+import { db, timestamp } from '../firebase';
 import { useAuth } from '../state/authState';
 
 const CreateRoomModel = ({ show, handleClose }) => {
@@ -11,13 +11,14 @@ const CreateRoomModel = ({ show, handleClose }) => {
   const [data, setData] = useState({ roomName: '' });
   const [loading, setLoading] = useState(false);
   const currentUser = useAuth((state) => state.currentUser);
-  const authUserRef = useAuth((state) => state.authUserRef);
+  // const authUserRef = useAuth((state) => state.authUserRef);
 
   const handleCreateRoom = async () => {
     setLoading((loading) => !loading);
     const roomData = {
       roomName: data.roomName,
       admin: currentUser.displayName,
+      createdAt: timestamp(),
     };
     try {
       const room = await db.collection('rooms').add(roomData);
@@ -29,13 +30,10 @@ const CreateRoomModel = ({ show, handleClose }) => {
         .doc(currentUser.uid)
         .set({ username: currentUser.displayName });
 
-      if (!currentUser.createdRooms) currentUser.createdRooms = [];
-      else currentUser.createdRooms.push(room.id);
-
-      await authUserRef.update({
-        createdRooms: firebase.firestore.FieldValue.arrayUnion(room.id),
-        activeRooms: firebase.firestore.FieldValue.arrayUnion(room.id),
-      });
+      // await authUserRef.update({
+      //   createdRooms: firebase.firestore.FieldValue.arrayUnion(room.id),
+      //   activeRooms: firebase.firestore.FieldValue.arrayUnion(room.id),
+      // });
 
       history.push(`/room/${room.id}`);
     } catch (err) {

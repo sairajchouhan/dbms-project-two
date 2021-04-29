@@ -6,7 +6,7 @@ import CreateRoomModel from '../components/CreateRoomModel';
 import DashBoardBottom from '../components/DashBoardBottom';
 import JoinRoomModel from '../components/JoinRoomModel';
 import '../index.css';
-import { useAuth } from '../state/authState';
+// import { useAuth } from '../state/authState';
 
 const DashBoard = () => {
   const [show1, setShow1] = useState(false);
@@ -15,7 +15,6 @@ const DashBoard = () => {
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
-  const authUserRefValues = useAuth((state) => state.authUserRefValues);
 
   return (
     <div style={{ marginTop: '1rem' }}>
@@ -49,7 +48,7 @@ const DashBoard = () => {
           <h4 className="m-0">Your Rooms</h4>
         </Col>
       </Row>
-      <DashBoardBottom authUserRefValues={authUserRefValues} />
+      <DashBoardBottom />
     </div>
   );
 };

@@ -3,26 +3,31 @@ import { Row } from 'react-bootstrap';
 
 import DashBoardUserRoomCard from './DashBoardUserRoomCard';
 import { db } from '../firebase';
+import { useAuth } from '../state/authState';
 
-const DashBoardBottom = ({ authUserRefValues }) => {
+const DashBoardBottom = () => {
   const [rooms, setRooms] = useState([]);
+  const authUserRefValues = useAuth((state) => state.authUserRefValues);
 
   useEffect(() => {
     const rooms = [];
+    console.log('executing useEffect in DashboardBottom');
     const unsub = db
       .collection('rooms')
-      .where('roomId', 'in', authUserRefValues.createdRooms)
-      .get()
-      .then((qs) => {
-        qs.docs.forEach((room) => {
-          rooms.push({ roomId: room.id, ...room.data() });
+      .where('admin', '==', authUserRefValues.username)
+      .orderBy('createdAt', 'desc')
+      .onSnapshot((qs) => {
+        // console.log(qs.size);
+        qs.docs.forEach((doc) => {
+          console.log(doc.data());
+          rooms.push({ roomId: doc.id, ...doc.data() });
         });
         setRooms(rooms);
-      })
-      .catch((err) => {
-        console.log(err.message);
       });
-    return unsub;
+
+    return () => {
+      unsub();
+    };
   }, [authUserRefValues]);
 
   return (
