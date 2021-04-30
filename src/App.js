@@ -14,22 +14,23 @@ import { useAuth } from './state/authState';
 
 const App = () => {
   const setCurrentUser = useAuth((state) => state.setCurrentUser);
-  const setAuthUserRef = useAuth((state) => state.setAuthUserRef);
-  const setAuthUserRefValues = useAuth((state) => state.setAuthUserRefValues);
+  const setCurrentUserRef = useAuth((state) => state.setCurrentUserRef);
+  const setCurrentFbUser = useAuth((state) => state.setCurrentFbUser);
+
+  const currentUser = useAuth((state) => state.currentUser);
   const setLoading = useAuth((state) => state.setLoading);
-  const authUserRefValues = useAuth((state) => state.authUserRefValues);
   const loading = useAuth((state) => state.loading);
 
   useEffect(() => {
     const unsub = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
+      setCurrentFbUser(user);
       const ref = db.collection('users').doc(user?.uid);
       db.collection('users')
         .doc(user?.uid)
         .get()
         .then((doc) => {
-          setAuthUserRef(ref);
-          setAuthUserRefValues(doc.data());
+          setCurrentUserRef(ref);
+          setCurrentUser(doc.data());
           setLoading(false);
         })
         .catch((err) => {
@@ -37,11 +38,11 @@ const App = () => {
         });
     });
     return unsub;
-  }, [setCurrentUser, setAuthUserRef, setLoading, setAuthUserRefValues]);
+  }, [setCurrentUser, setLoading, setCurrentFbUser, setCurrentUserRef]);
 
   return (
     <>
-      {!loading && Object.keys(authUserRefValues).length > 0 && (
+      {!loading && Object.keys(currentUser).length > 0 && (
         <>
           <NavBar />
           <Switch>
