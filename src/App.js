@@ -17,6 +17,7 @@ const App = () => {
   const setAuthUserRef = useAuth((state) => state.setAuthUserRef);
   const setAuthUserRefValues = useAuth((state) => state.setAuthUserRefValues);
   const setLoading = useAuth((state) => state.setLoading);
+  const authUserRefValues = useAuth((state) => state.authUserRefValues);
   const loading = useAuth((state) => state.loading);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ const App = () => {
 
   return (
     <>
-      {!loading && (
+      {!loading && Object.keys(authUserRefValues).length > 0 && (
         <>
           <NavBar />
           <Switch>

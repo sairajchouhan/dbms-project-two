@@ -26,8 +26,6 @@ const RoomRight = ({ roomName, roomId, roomAdmin }) => {
     };
   }, [roomId]);
 
-  console.log(roomAdmin);
-
   return (
     <div
       style={{

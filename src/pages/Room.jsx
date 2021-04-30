@@ -15,7 +15,6 @@ const Room = () => {
   const [room, setRoom] = useState({});
 
   useEffect(() => {
-    console.log(authUserRefValues);
     const hasUserReallyJoined = authUserRefValues.activeRooms.includes(id);
     if (hasUserReallyJoined) {
       db.collection('rooms')
