@@ -68,3 +68,10 @@ h5 {
 .asdf {
   background-color: aquamarine;
 }
+
+.dropdown-toggle::after {
+  display: none;
+}
+.dropleft .dropdown-toggle::before {
+  display: none;
+}

@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { BiExit } from 'react-icons/bi';
-import { useHistory } from 'react-router-dom';
-import { FaRegCopy } from 'react-icons/fa';
 
 import { db } from '../firebase';
 import { useAuth } from '../state/authState';
 import Message from './Message';
 import RoomChatInput from './RoomChatInput';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import RoomRightSettingsDropdown from './RoomRightSettingsDropdown';
 
-const RoomRight = ({ roomName, roomId, roomAmdin }) => {
-  const history = useHistory();
+const RoomRight = ({ roomName, roomId, roomAdmin }) => {
   const currentUser = useAuth((state) => state.currentUser);
+
   const [msgs, setMesgs] = useState([]);
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const unsub = db
@@ -30,28 +26,7 @@ const RoomRight = ({ roomName, roomId, roomAmdin }) => {
     };
   }, [roomId]);
 
-  const handleLeaveRoom = async () => {
-    try {
-      await db
-        .collection('rooms')
-        .doc(roomId)
-        .collection('roomMates')
-        .doc(currentUser.uid)
-        .delete();
-
-      history.push('/dashboard');
-    } catch (err) {
-      console.log('error deleting roomate');
-    }
-  };
-
-  const copyRoomId = () => {
-    navigator.clipboard.writeText(roomId);
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 3000);
-  };
+  console.log(roomAdmin);
 
   return (
     <div
@@ -73,33 +48,13 @@ const RoomRight = ({ roomName, roomId, roomAmdin }) => {
         }}
       >
         <h5>{roomName}</h5>
-        <div style={{ display: 'flex' }}>
-          <OverlayTrigger
-            placement="top"
-            overlay={
-              <Tooltip id="tooltip-copy-roomid">
-                {!copied ? <span>Copy Room Id</span> : <span>Copied!</span>}
-              </Tooltip>
-            }
-          >
-            <div
-              style={{ cursor: 'pointer', margin: '0 8px' }}
-              onClick={copyRoomId}
-            >
-              <FaRegCopy style={{ fontSize: '1.5rem', color: '#30336b' }} />
-            </div>
-          </OverlayTrigger>
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip id="tooltip-leave-room">Leave room</Tooltip>}
-          >
-            <div
-              style={{ cursor: 'pointer', margin: '0 8px' }}
-              onClick={handleLeaveRoom}
-            >
-              <BiExit style={{ fontSize: '1.5rem', color: '#eb4d4b' }} />
-            </div>
-          </OverlayTrigger>
+        <div>
+          {/* asdfas  */}
+          <RoomRightSettingsDropdown
+            roomName={roomName}
+            roomId={roomId}
+            roomAdmin={roomAdmin}
+          />
         </div>
       </div>
       <div style={{ height: '92%', padding: '10px 0' }}>

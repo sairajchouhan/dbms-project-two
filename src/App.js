@@ -27,8 +27,8 @@ const App = () => {
         .doc(user?.uid)
         .get()
         .then((doc) => {
-          setAuthUserRefValues(doc.data());
           setAuthUserRef(ref);
+          setAuthUserRefValues(doc.data());
           setLoading(false);
         })
         .catch((err) => {
