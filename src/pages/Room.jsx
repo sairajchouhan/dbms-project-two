@@ -1,22 +1,36 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import RoomLeft from '../components/RoomLeft';
 import RoomRight from '../components/RoomRight';
 import { db } from '../firebase';
+import { useAuth } from '../state/authState';
 
 const Room = () => {
   const { id } = useParams();
+  const authUserRefValues = useAuth((state) => state.authUserRefValues);
+  const history = useHistory();
+
   const [room, setRoom] = useState({});
 
   useEffect(() => {
-    db.collection('rooms')
-      .doc(id)
-      .get()
-      .then((qs) => {
-        setRoom(qs.data());
-      });
-  }, [id]);
+    console.log(authUserRefValues);
+    const hasUserReallyJoined = authUserRefValues.activeRooms.includes(id);
+    if (hasUserReallyJoined) {
+      db.collection('rooms')
+        .doc(id)
+        .get()
+        .then((qs) => {
+          setRoom(qs.data());
+        });
+    } else {
+      history.push('/dashboard');
+    }
+  }, [id, authUserRefValues, history]);
+
+  if (Object.keys(room).length === 0) return <h1>Loading...</h1>;
+
   return (
     <Row
       style={{

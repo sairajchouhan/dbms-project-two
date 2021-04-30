@@ -22,7 +22,7 @@ const CreateRoomModel = ({ show, handleClose }) => {
     };
     try {
       const room = await db.collection('rooms').add(roomData);
-      await db.collection('rooms').doc(room.id).update({ roomId: room.id });
+      // await db.collection('rooms').doc(room.id).update({ roomId: room.id });
       await db
         .collection('rooms')
         .doc(room.id)

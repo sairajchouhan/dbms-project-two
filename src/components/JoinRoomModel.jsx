@@ -30,6 +30,7 @@ const CreateRoomModel = ({ show, handleClose }) => {
       console.log(err.message);
     }
     // ? ADDS YOU TO ROOMMATES COLLECTIONS OF THE ROOM
+
     try {
       await db
         .collection('rooms')
@@ -37,8 +38,6 @@ const CreateRoomModel = ({ show, handleClose }) => {
         .collection('roomMates')
         .doc(currentUser.uid)
         .set({ username: currentUser.displayName });
-
-      // history.push(`/room/${roomId}`);
     } catch (err) {
       console.log('error in joining room');
     }
@@ -51,6 +50,7 @@ const CreateRoomModel = ({ show, handleClose }) => {
     } catch (err) {
       console.log('error in adding active room to authenticated user');
     }
+    history.push(`/room/${roomId}`);
     handleClose();
   };
 
