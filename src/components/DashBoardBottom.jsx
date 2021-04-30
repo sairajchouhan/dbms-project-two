@@ -12,17 +12,14 @@ const DashBoardBottom = () => {
   const authUserRefValues = useAuth((state) => state.authUserRefValues);
 
   useEffect(() => {
-    if (!authUserRefValues) return;
+    if (!authUserRefValues || !authUserRefValues.activeRooms) return;
     const rooms = [];
-    console.log(authUserRefValues);
     const unsub = db
       .collection('rooms')
       .where('admin', '==', authUserRefValues?.username)
       .orderBy('createdAt', 'desc')
       .onSnapshot((qs) => {
-        // console.log(qs.size);
         qs.docs.forEach((doc) => {
-          // console.log(doc.data());
           rooms.push({ roomId: doc.id, ...doc.data() });
         });
         setRooms(rooms);
@@ -35,10 +32,9 @@ const DashBoardBottom = () => {
 
   useEffect(() => {
     const fun = async () => {
-      if (!authUserRefValues) return;
-      console.log('runnig to fetch');
+      if (!authUserRefValues || !authUserRefValues.activeRooms) return;
       const activeRooms = [];
-      await authUserRefValues.activeRooms.reduce(async (memo, i) => {
+      await authUserRefValues?.activeRooms.reduce(async (memo, i) => {
         await memo;
         const res = await db.collection('rooms').doc(i).get();
         activeRooms.unshift({ roomId: res.id, ...res.data() });
@@ -48,8 +44,6 @@ const DashBoardBottom = () => {
 
     fun();
   }, [authUserRefValues]);
-
-  console.log(activeRooms);
 
   return (
     <>
