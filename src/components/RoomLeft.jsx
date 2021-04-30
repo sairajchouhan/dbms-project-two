@@ -5,20 +5,14 @@ import { useAuth } from '../state/authState';
 const RoomLeft = ({ roomId, roomAdmin }) => {
   const [roomMates, setRoomMates] = useState([]);
   const currentUser = useAuth((state) => state.currentUser);
+  // beleiving that this will work
   useEffect(() => {
     const unsub = db
       .collection('rooms')
       .doc(roomId)
-      .collection('roomMates')
-      .onSnapshot((qs) => {
-        let mates = [];
-        mates = qs.docs.map((doc) => ({
-          uid: doc.id,
-          username: doc.data().username,
-        }));
-        setRoomMates(mates);
+      .onSnapshot((doc) => {
+        setRoomMates(doc.data().roomMates);
       });
-
     return () => {
       unsub();
     };
@@ -61,7 +55,7 @@ const RoomLeft = ({ roomId, roomAdmin }) => {
                 >
                   <p className="text-center">
                     {mate.username}
-                    {currentUser.username === mate.username ? ' - Admin' : ''}
+                    {currentUser.username === roomAdmin ? ' - Admin' : ''}
                   </p>
                 </div>
                 <hr className="m-0" />

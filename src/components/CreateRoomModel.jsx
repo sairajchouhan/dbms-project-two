@@ -22,13 +22,13 @@ const CreateRoomModel = ({ show, handleClose }) => {
     };
     try {
       const room = await db.collection('rooms').add(roomData);
-      // await db.collection('rooms').doc(room.id).update({ roomId: room.id });
       await db
         .collection('rooms')
         .doc(room.id)
-        .collection('roomMates')
-        .doc(currentUser.uid)
-        .set({ username: currentUser.username });
+        .update({
+          roomId: room.id,
+          roomMates: [{ uid: currentUser.uid, username: currentUser.username }],
+        });
 
       await currentUserRef.update({
         activeRooms: firebase.firestore.FieldValue.arrayUnion(room.id),
