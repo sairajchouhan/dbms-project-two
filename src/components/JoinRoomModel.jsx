@@ -10,7 +10,7 @@ const CreateRoomModel = ({ show, handleClose }) => {
   const history = useHistory();
   const [data, setData] = useState({ roomId: '' });
   const currentUser = useAuth((state) => state.currentUser);
-  const authUserRef = useAuth((state) => state.authUserRef);
+  const currentUserRef = useAuth((state) => state.currentUserRef);
 
   const handleJoinRoom = async (roomId) => {
     try {
@@ -18,7 +18,7 @@ const CreateRoomModel = ({ show, handleClose }) => {
         .collection('rooms')
         .doc(roomId)
         .collection('roomMates')
-        .where('username', '==', currentUser.displayName)
+        .where('username', '==', currentUser.username)
         .get();
 
       if (!roomMatesQS.empty) {
@@ -37,14 +37,14 @@ const CreateRoomModel = ({ show, handleClose }) => {
         .doc(roomId)
         .collection('roomMates')
         .doc(currentUser.uid)
-        .set({ username: currentUser.displayName });
+        .set({ username: currentUser.username });
     } catch (err) {
       console.log('error in joining room');
     }
 
     //? ADDS ACTIVE ROOM IN USER DOCUMENT
     try {
-      await authUserRef.update({
+      await currentUserRef.update({
         activeRooms: firebase.firestore.FieldValue.arrayUnion(roomId),
       });
     } catch (err) {

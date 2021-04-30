@@ -9,13 +9,13 @@ import { useAuth } from '../state/authState';
 
 const Room = () => {
   const { id } = useParams();
-  const authUserRefValues = useAuth((state) => state.authUserRefValues);
+  const currentUser = useAuth((state) => state.currentUser);
   const history = useHistory();
 
   const [room, setRoom] = useState({});
 
   useEffect(() => {
-    const hasUserReallyJoined = authUserRefValues.activeRooms.includes(id);
+    const hasUserReallyJoined = currentUser.activeRooms.includes(id);
     if (hasUserReallyJoined) {
       db.collection('rooms')
         .doc(id)
@@ -26,7 +26,7 @@ const Room = () => {
     } else {
       history.push('/dashboard');
     }
-  }, [id, authUserRefValues, history]);
+  }, [id, currentUser, history]);
 
   if (Object.keys(room).length === 0) return <h1>Loading...</h1>;
 

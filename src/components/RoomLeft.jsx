@@ -61,9 +61,7 @@ const RoomLeft = ({ roomId, roomAdmin }) => {
                 >
                   <p className="text-center">
                     {mate.username}
-                    {currentUser.displayName === mate.username
-                      ? ' - Admin'
-                      : ''}
+                    {currentUser.username === mate.username ? ' - Admin' : ''}
                   </p>
                 </div>
                 <hr className="m-0" />

@@ -11,13 +11,13 @@ const CreateRoomModel = ({ show, handleClose }) => {
   const [data, setData] = useState({ roomName: '' });
   const [loading, setLoading] = useState(false);
   const currentUser = useAuth((state) => state.currentUser);
-  const authUserRef = useAuth((state) => state.authUserRef);
+  const currentUserRef = useAuth((state) => state.currentUserRef);
 
   const handleCreateRoom = async () => {
     setLoading((loading) => !loading);
     const roomData = {
       roomName: data.roomName,
-      admin: currentUser.displayName,
+      admin: currentUser.username,
       createdAt: timestamp(),
     };
     try {
@@ -28,9 +28,9 @@ const CreateRoomModel = ({ show, handleClose }) => {
         .doc(room.id)
         .collection('roomMates')
         .doc(currentUser.uid)
-        .set({ username: currentUser.displayName });
+        .set({ username: currentUser.username });
 
-      await authUserRef.update({
+      await currentUserRef.update({
         activeRooms: firebase.firestore.FieldValue.arrayUnion(room.id),
       });
 

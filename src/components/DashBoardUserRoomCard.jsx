@@ -27,7 +27,7 @@ const DashBoardUserRoomCard = ({ roomName, roomId, roomAdmin, ...props }) => {
         }}
       >
         <p className="mr-3">{roomName}</p>
-        {currentUser.displayName === roomAdmin && (
+        {currentUser.username === roomAdmin && (
           <p style={{ fontSize: '0.75rem', color: 'gray' }}>You are admin</p>
         )}
       </div>

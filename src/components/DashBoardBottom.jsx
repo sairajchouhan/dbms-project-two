@@ -9,14 +9,14 @@ import { Tab } from 'bootstrap';
 const DashBoardBottom = () => {
   const [rooms, setRooms] = useState([]);
   const [activeRooms, setActiveRooms] = useState('');
-  const authUserRefValues = useAuth((state) => state.authUserRefValues);
+  const currentUser = useAuth((state) => state.currentUser);
 
   useEffect(() => {
-    if (!authUserRefValues || !authUserRefValues.activeRooms) return;
+    if (!currentUser || !currentUser.activeRooms) return;
     const rooms = [];
     const unsub = db
       .collection('rooms')
-      .where('admin', '==', authUserRefValues?.username)
+      .where('admin', '==', currentUser?.username)
       .orderBy('createdAt', 'desc')
       .onSnapshot((qs) => {
         qs.docs.forEach((doc) => {
@@ -28,13 +28,13 @@ const DashBoardBottom = () => {
     return () => {
       unsub();
     };
-  }, [authUserRefValues]);
+  }, [currentUser]);
 
   useEffect(() => {
     const fun = async () => {
-      if (!authUserRefValues || !authUserRefValues.activeRooms) return;
+      if (!currentUser || !currentUser.activeRooms) return;
       const activeRooms = [];
-      await authUserRefValues?.activeRooms.reduce(async (memo, i) => {
+      await currentUser?.activeRooms.reduce(async (memo, i) => {
         await memo;
         const res = await db.collection('rooms').doc(i).get();
         activeRooms.unshift({ roomId: res.id, ...res.data() });
@@ -43,7 +43,7 @@ const DashBoardBottom = () => {
     };
 
     fun();
-  }, [authUserRefValues]);
+  }, [currentUser]);
 
   return (
     <>

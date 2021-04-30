@@ -1,34 +1,34 @@
 import React, { useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 import { FaRegCopy } from 'react-icons/fa';
 import { BsFillGearFill } from 'react-icons/bs';
 import { BiExit } from 'react-icons/bi';
 import { RiDeleteBin2Line } from 'react-icons/ri';
-import { db } from '../firebase';
+// import { db } from '../firebase';
 import { useAuth } from '../state/authState';
 
 const RoomRightSettingsDropdown = ({ roomId, roomAdmin, roomName }) => {
-  const history = useHistory();
+  // const history = useHistory();
   const [copied, setCopied] = useState(false);
+  // const currentUser = useAuth((state) => state.currentUser);
   const currentUser = useAuth((state) => state.currentUser);
-  const authUserRefValues = useAuth((state) => state.authUserRefValues);
 
-  const handleLeaveRoom = async () => {
-    try {
-      await db
-        .collection('rooms')
-        .doc(roomId)
-        .collection('roomMates')
-        .doc(currentUser.uid)
-        .delete();
+  // const handleLeaveRoom = async () => {
+  //   try {
+  //     await db
+  //       .collection('rooms')
+  //       .doc(roomId)
+  //       .collection('roomMates')
+  //       .doc(currentUser.uid)
+  //       .delete();
 
-      history.push('/dashboard');
-    } catch (err) {
-      console.log('error deleting roomate');
-    }
-  };
+  //     history.push('/dashboard');
+  //   } catch (err) {
+  //     console.log('error deleting roomate');
+  //   }
+  // };
 
   const copyRoomId = () => {
     navigator.clipboard.writeText(roomId);
@@ -63,11 +63,8 @@ const RoomRightSettingsDropdown = ({ roomId, roomAdmin, roomName }) => {
           </div>
         </Dropdown.Item>
         <Dropdown.Item className="px-3">
-          {authUserRefValues.username === roomAdmin ? (
-            <div
-              style={{ display: 'flex', alignItems: 'center' }}
-              onClick={handleLeaveRoom}
-            >
+          {currentUser.username === roomAdmin ? (
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               <RiDeleteBin2Line
                 style={{
                   fontSize: '1.5rem',
@@ -78,10 +75,7 @@ const RoomRightSettingsDropdown = ({ roomId, roomAdmin, roomName }) => {
               <span>Delete Room</span>
             </div>
           ) : (
-            <div
-              style={{ display: 'flex', alignItems: 'center' }}
-              onClick={handleLeaveRoom}
-            >
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               <BiExit
                 style={{
                   fontSize: '1.5rem',

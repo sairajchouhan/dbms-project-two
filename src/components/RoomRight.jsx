@@ -70,14 +70,14 @@ const RoomRight = ({ roomName, roomId, roomAdmin }) => {
             return (
               <Message
                 text={msg.msg}
-                isAuthUser={currentUser.displayName === msg.sender}
+                isAuthUser={currentUser.username === msg.sender}
                 key={Math.floor(Math.random() * 99999999)}
                 chatername={msg.sender}
               />
             );
           })}
         </div>
-        <RoomChatInput roomId={roomId} sender={currentUser.displayName} />
+        <RoomChatInput roomId={roomId} sender={currentUser.username} />
       </div>
     </div>
   );

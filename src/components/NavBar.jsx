@@ -21,7 +21,7 @@ const NavBar = () => {
         <Nav className="ml-auto">
           {currentUser ? (
             <>
-              <Nav.Link>{currentUser.displayName}</Nav.Link>
+              <Nav.Link>{currentUser.username}</Nav.Link>
               <Nav.Link as={Link} to="/dashboard">
                 Dashboard
               </Nav.Link>
