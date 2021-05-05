@@ -8,7 +8,7 @@ const Home = () => {
   useEffect(() => {
     if (currentUser) history.push('/dashboard');
   }, [currentUser, history]);
-  return <div>this is home</div>;
+  return <div style={{background: 'red'}}>this is home</div>;
 };
 
 export default Home;
